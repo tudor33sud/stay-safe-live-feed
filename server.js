@@ -8,7 +8,7 @@ const keyCloakCerts = new KeyCloakCerts('http://localhost:8080', 'StaySafe');
 const dataService = require('./service/stay-safe-data');
 const app = express();
 const userRoles = require('./utils/user-roles');
-const { LOCATION_UPDATE } = require('./utils/actionTypes').names;
+const { LOCATION_UPDATE, FINISHED_EVENT } = require('./utils/actionTypes').names;
 const handlers = require('./utils/actionTypes').handlers;
 app.get('/', async (req, res) => {
     res.send('merge si http');
@@ -75,6 +75,8 @@ wss.on('connection', async (ws, req) => {
             const parsed = JSON.parse(message);
             if (parsed.action === LOCATION_UPDATE) {
                 handlers.onLocationUpdate(ws, wss, parsed.value);
+            } else if(parsed.action === FINISHED_EVENT ){
+                handlers.onFinishedEvent(ws,wss,parsed.value);
             }
         });
 
