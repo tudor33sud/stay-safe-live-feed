@@ -81,7 +81,8 @@ wss.on('connection', async (ws, req) => {
         ws.on('close', () => {
             console.log(`${ws.user.email} disconnected`);
         });
-        ws.send(`Hi ${ws.user.email} you are connected to ws server`);
+        console.log(`User ${ws.user.email} connected`);
+    
     } catch (err) {
         console.log(err);
         ws.close();
